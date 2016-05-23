@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div>
+    <div class="page-header">
+        <h3>Zillow Home Search</h3>
+        <h5>Enter an address</h5>
+    </div>
+    <div class="form-group">
+        <label for="addr">Address:</label>
+        <input type="text" class="form-control" id="addr" data-bind="value: SearchAddress,valueUpdate: 'afterkeydown',enterKey: onEnter" />
+        <label for="city">City:</label>
+        <input type="text" class="form-control" id="city" data-bind="enable: CityStateIsActive, value: SearchCity,valueUpdate: 'afterkeydown',enterKey: onEnter" />
+        <label for="state">State:</label>
+        <input type="text" class="form-control" id="state" data-bind="enable: CityStateIsActive, value: SearchState,valueUpdate: 'afterkeydown',enterKey: onEnter" />
+        <label for="zip">Or Zip:</label>
+        <input type="text" class="form-control" id="zip" data-bind="enable: ZipIsActive, value: SearchZip, valueUpdate: 'afterkeydown',enterKey: onEnter" /><br/>
+        <input type="button" class="btn btn-primary active" value="Search" id="Search" data-bind="click: Search"/><br />
+        
+    </div>
+    <div id="Result" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Result</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Address Found</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label>Street</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultStreet"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>City</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultCity"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>State</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultState"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Zip Code</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultZip"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Latitude:</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultLat"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Longitude:</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultLong"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Zestimate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label>Currency</label>
+                                </td>
+                                <td>                                    
+                                    <label data-bind="text: Result.ResultZest.Currency"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Amount</label>
+                                </td>
+                                <td>                                    
+                                    <label data-bind="text: Result.ResultZest.Amount"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Last Updated</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultZest.Updated"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Value Changed</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultZest.Changed.Amount"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Duration</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text:Result.ResultZest.Changed.Duration"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>High Range:</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text:Result.ResultZest.Range.High"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Low Range</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: Result.ResultZest.Range.Low"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Error" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Errors</h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tbody data-bind="foreach: Errors">
+                            <tr>
+                                <td>
+                                    <label>Error Code:</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: ErrorCode"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Message:</label>
+                                </td>
+                                <td>
+                                    <label data-bind="text: ErrorMessage"></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
